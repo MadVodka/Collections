@@ -1,16 +1,13 @@
 package services;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Set;
-import java.util.TreeMap;
+import java.util.*;
 import java.util.regex.Pattern;
+import java.util.stream.Stream;
 
 public class TextServiceImpl implements TextService {
     @Override
     public Map<String, Long> countEveryWord(String text) {
-        Pattern pattern = Pattern.compile("[^а-яА-яa-zA-Z]+");
-        String[] words = pattern.split(text);
+        String[] words = getWordsFromText(text);
         Map<String, Long> countOfWords = new HashMap<>();
         for (String word : words) {
             String wordInLowerCase = word.toLowerCase();
@@ -25,12 +22,19 @@ public class TextServiceImpl implements TextService {
     }
 
     @Override
-    public Set<String> getUniqueWords(Map<String, ?> words) {
-        return words.keySet();
+    public Set<String> getUniqueWords(String text) {
+        String[] words = getWordsFromText(text);
+        return new HashSet<>(Arrays.asList(words));
     }
 
     @Override
-    public Map<String, Long> sortWords(Map<String, Long> words) {
-        return new TreeMap<>(words);
+    public Set<String> sortedWords(String text) {
+        String[] words = getWordsFromText(text);
+        return new TreeSet<>(Arrays.asList(words));
+    }
+
+    private String[] getWordsFromText(String text) {
+        Pattern pattern = Pattern.compile("[^а-яА-яa-zA-Z]+");
+        return pattern.split(text);
     }
 }

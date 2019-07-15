@@ -6,7 +6,7 @@ import java.util.Set;
 public interface TextService {
     Map<String, Long> countEveryWord(String text);
 
-    Set<String> getUniqueWords(Map<String, ?> words);
+    Set<String> getUniqueWords(String text);
 
-    Map<String, Long> sortWords(Map<String, Long> words);
+    Set<String> sortedWords(String text);
 }
