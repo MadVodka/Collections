@@ -22,14 +22,24 @@ public class TextServiceWithStreams implements TextService {
     public Set<String> getUniqueWords(String text) {
         String[] words = getWordsFromText(text);
         return Arrays.stream(words)
+                .map(String::toLowerCase)
                 .collect(Collectors.toCollection(HashSet::new));
     }
 
     @Override
-    public Set<String> sortedWords(String text) {
+    public Set<String> getSortedWords(String text) {
         String[] words = getWordsFromText(text);
         return Arrays.stream(words)
                 .collect(Collectors.toCollection(TreeSet::new));
+    }
+
+    @Override
+    public Set<String> getSortedWords(String text, Comparator<String> comparator) {
+        String[] words = getWordsFromText(text);
+        return Arrays.stream(words)
+                .sorted()
+                .sorted(comparator)
+                .collect(Collectors.toCollection(LinkedHashSet::new));
     }
 
     private String[] getWordsFromText(String text) {

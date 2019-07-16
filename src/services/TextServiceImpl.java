@@ -2,7 +2,6 @@ package services;
 
 import java.util.*;
 import java.util.regex.Pattern;
-import java.util.stream.Stream;
 
 public class TextServiceImpl implements TextService {
     @Override
@@ -24,13 +23,25 @@ public class TextServiceImpl implements TextService {
     @Override
     public Set<String> getUniqueWords(String text) {
         String[] words = getWordsFromText(text);
-        return new HashSet<>(Arrays.asList(words));
+        Set<String> uniqueWordsSet = new HashSet<>();
+        for (String word : words) {
+            uniqueWordsSet.add(word.toLowerCase());
+        }
+        return uniqueWordsSet;
     }
 
     @Override
-    public Set<String> sortedWords(String text) {
+    public Set<String> getSortedWords(String text) {
         String[] words = getWordsFromText(text);
         return new TreeSet<>(Arrays.asList(words));
+    }
+
+    @Override
+    public Set<String> getSortedWords(String text, Comparator<String> comparator) {
+        String[] words = getWordsFromText(text);
+        Arrays.sort(words);
+        Arrays.sort(words, comparator);
+        return new LinkedHashSet<>(Arrays.asList(words));
     }
 
     private String[] getWordsFromText(String text) {
